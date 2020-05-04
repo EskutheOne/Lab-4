@@ -127,6 +127,8 @@ void main()
 
 	}
 	
+	free(yee);
+	free(yrr);
 	fclose(g);
 	wait();
 
