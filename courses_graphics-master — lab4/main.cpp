@@ -9,6 +9,7 @@ double euler(double y, double t, double h);
 double fun(double t, double y);
 double anali(double y, double t, double t0);
 void scan(double* x);
+double round(double num);		//funkcja zaokraglajaca ktora natywnie nie wystepuje w c tylko w c++ dlatego tutaj dodana
 double l = 1;
 double p = 6;		//najwieksza potega liczby N kotra wyznacza ilosc krokow
 
@@ -105,7 +106,7 @@ void main()
 			k++;
 
 		}
-		
+
 		rzade = round(log(fabs((ye - anali(y0, t, t0)))) / log(fabs((yee[k-1] - anali(y0, t, y0)))));
 		rzadrk = round(log(fabs((yr - anali(y0, t, t0)))) / log(fabs((yrr[k-1] - anali(y0, t, y0)))));		//szacowanie rzêdu zbie¿noœci
 		printf("\n RZAD ZBIEZONSCI E = %lf RZAD ZBIEZONOSCI RK = %lf \n\n",rzade,rzadrk);
@@ -166,4 +167,9 @@ double anali(double y0, double t, double t0)	 //analityczne rozwiazanie
 
 	return y0 * exp(l * (t - t0));
 
+}
+
+double round(double num)
+{
+	return (num >= 0) ? (int)(num + 0.5) : (int)(num - 0.5);
 }

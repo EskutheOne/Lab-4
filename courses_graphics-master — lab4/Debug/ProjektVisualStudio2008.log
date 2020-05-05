@@ -1,6 +1,9 @@
 ﻿cl : wiersz polecenia warning D9035: Opcja "Gm" jest przestarzała i będzie usunięta w przyszłych wydaniach
   main.cpp
-D:\PW\Infa II\courses_graphics-master — lab4\main.cpp(54,36): warning C4244: "argument": konwersja z "double" do "size_t", możliwa utrata danych
-D:\PW\Infa II\courses_graphics-master — lab4\main.cpp(55,36): warning C4244: "argument": konwersja z "double" do "size_t", możliwa utrata danych
+D:\PW\Infa II\courses_graphics-master — lab4\main.cpp(12,25): warning C4273: "round": niespójne powiązanie biblioteki dll
+D:\Windows Kits\10\Include\10.0.18362.0\ucrt\corecrt_math.h(533,44): message : zobacz poprzednią definicję „round”
+D:\PW\Infa II\courses_graphics-master — lab4\main.cpp(56,36): warning C4244: "argument": konwersja z "double" do "size_t", możliwa utrata danych
+D:\PW\Infa II\courses_graphics-master — lab4\main.cpp(57,36): warning C4244: "argument": konwersja z "double" do "size_t", możliwa utrata danych
 main.obj : warning LNK4075: zignorowano opcję "/EDITANDCONTINUE" z powodu określenia opcji "/SAFESEH"
+     Trwa tworzenie biblioteki D:\PW\Infa II\courses_graphics-master - lab4\Debug\Grafika.lib i obiektu D:\PW\Infa II\courses_graphics-master - lab4\Debug\Grafika.exp
   ProjektVisualStudio2008.vcxproj -> D:\PW\Infa II\courses_graphics-master — lab4\Debug\Grafika.exe
