@@ -5,7 +5,7 @@
 #include "winbgi2.h"
 #include "rk4.h"
 
-double euler(double y, double t, double h);
+double euler(double y, double t, double h, double (*pf)(double, double));
 double fun(double t, double y);
 double anali(double y, double t, double t0);
 void scan(double* x);
@@ -94,7 +94,7 @@ void main()
 			yrr[k] = yr;
 			if (Er_max < Er) Er_max = Er;
 			
-			ye = euler(ye, t, h);
+			ye = euler(ye, t, h, fun);
 			printf(" Metoda Eulera t[%i] = %f , y[%i] = %f , N = %f , h = %f \n", k, t, k, ye, N, h);
 			Ee = (fabs((ye - anali(y0, t, t0))) / fabs(anali(y0, t, t0)));		//blad metody Eulera
 			printf("Blad met. Eulera = %lf \n\n", Ee);
@@ -155,10 +155,10 @@ double fun(double t, double y)	 //funkcja liczaca prawa strone rownania, wywolyw
 
 }
 
-double euler(double y, double t, double h) 
+double euler(double y, double t, double h, double (*pf)(double, double))
 {
 
-	return y += h * fun(t, y);
+	return y += h * pf(t, y);
 
 }
 
