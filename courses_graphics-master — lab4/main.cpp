@@ -20,7 +20,6 @@ void main()
 	double t, ye, yr;		//zmienne uzywane w programie
 	double tm, t0, y0;		//zmienne podane przez uzytkownika
 	double p1 = 0, p2 = 0, p3 = 0;			//zmienne pomocnicze
-	double* t0_ = &t0, * tm_ = &tm, * y0_ = &y0, * l_ = &l;			//wskazniki by latwiej wczytywac zmienne bez ciaglego copy-paste
 	double *yee, *yrr;		//tablice przechowujace wartosci obliczone numerycznie w poprzednim kroku
 	double rzade, rzadrk;		//zmienne rzedu obu metod
 
@@ -39,22 +38,22 @@ void main()
 
 
 	printf("Podaj gorna krawedz przedzialu [tm]: \n");
-	scan(tm_);
+	scan(&tm);
 	
 	printf("Podaj warunek poczatkowy [t_0, y_0]: \n");
 	do
 	{
-		scan(t0_);
+		scan(&t0);
 		if (t0 >= tm) printf("t0 nie moze byc wieksze niz tm! \n");
 	} while (t0 >= tm);
-	scan(y0_);
+	scan(&y0);
 
 	printf("Podaj wartosc lambda: \n");
-	scan(l_);
+	scan(&l);
 
 
-	yee = (double*)malloc(pow(2.0, p) * sizeof(double));
-	yrr = (double*)malloc(pow(2.0, p) * sizeof(double));
+	yee = (double*)malloc((p+1) * sizeof(double));
+	yrr = (double*)malloc((p+1) * sizeof(double));
 
 	if (yee == NULL && yrr == NULL)
 	{
@@ -70,7 +69,7 @@ void main()
 	title("Blad metod:	Eulera [Czerwony]\tRK4 [Zolty]", "", "");
 
 	
-	for (int j = 0; j <( p+1 ); j++)
+	for (int j = 0; j < (p + 1); j++)
 	{
 
 		int k = 0;		//zmienna pomocnicza
@@ -83,7 +82,7 @@ void main()
 		yr = y0;
 		while ((tm - t) > h / 2.0)
 		{
-			t+= h;
+			t += h;
 
 			yr = rk4(t, yr, h, fun);
 			printf(" Met. RK4 t[%i] = %f , y[%i] = %f , N = %f , h = %f \n", k, t, k, yr, N, h);
@@ -91,25 +90,31 @@ void main()
 			printf("Blad met. RK4 = %lf \n\n", Er);
 			setcolor(0.7);		  //zolty
 			point(h, Er);
-			yrr[k] = yr;
 			if (Er_max < Er) Er_max = Er;
-			
+
 			ye = euler(ye, t, h, fun);
 			printf(" Metoda Eulera t[%i] = %f , y[%i] = %f , N = %f , h = %f \n", k, t, k, ye, N, h);
 			Ee = (fabs((ye - anali(y0, t, t0))) / fabs(anali(y0, t, t0)));		//blad metody Eulera
 			printf("Blad met. Eulera = %lf \n\n", Ee);
 			setcolor(1);		//czerwony
 			point(h, Ee);
-			yee[k] = ye;
 			if (Ee_max < Ee) Ee_max = Ee;
 
 			k++;
 
 		}
+	
+		if (j>0)
+		{
 
-		rzade = round(log(fabs((ye - anali(y0, t, t0)))) / log(fabs((yee[k-1] - anali(y0, t, y0)))));
-		rzadrk = round(log(fabs((yr - anali(y0, t, t0)))) / log(fabs((yrr[k-1] - anali(y0, t, y0)))));		//szacowanie rzêdu zbie¿noœci
-		printf("\n RZAD ZBIEZONSCI E = %lf RZAD ZBIEZONOSCI RK = %lf \n\n",rzade,rzadrk);
+			rzade = round(log(fabs((ye - anali(y0, t, t0)))) / log(fabs((yee[j-1] - anali(y0, t, t0)))));
+			rzadrk = round(log(fabs((yr - anali(y0, t, t0)))) / log(fabs((yrr[j-1] - anali(y0, t, t0)))));		//szacowanie rzêdu zbie¿noœci
+			printf("\n RZAD ZBIEZONSCI E = %lf RZAD ZBIEZONOSCI RK = %lf \n\n", rzade, rzadrk);
+
+		}
+
+		yee[j] = ye;
+		yrr[j] = yr;
 
 		if (j > 0)		//rysowanie wykresu	
 		{
